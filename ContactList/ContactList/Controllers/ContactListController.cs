@@ -18,7 +18,7 @@ namespace AspNetDemoApplication1.Controllers
         
         [HttpGet]
         [Route("{personId}", Name = "GetSpecificContact")]
-        public IActionResult GetItem(string personId)
+        public IActionResult GetItem(Int32 personId)
         {
             foreach(Contact c in contacts)
             {
@@ -58,9 +58,9 @@ namespace AspNetDemoApplication1.Controllers
         public IActionResult addContact([FromBody] Contact newContact)
         {
 
-            if(newContact.id == null || newContact.lastname == null)
+            if(newContact.lastname == null || newContact.id == 0)
             {
-                return BadRequest("Invalid Input");
+                return BadRequest("Invalid Input (id can not be 0)");
             }
             foreach(Contact c in contacts)
             {
@@ -76,12 +76,9 @@ namespace AspNetDemoApplication1.Controllers
 
         [HttpDelete]
         [Route("{personId}")]
-        public IActionResult DeleteContact(string personId)
+        public IActionResult DeleteContact(Int32 personId)
         {
-            if(!(int.TryParse(personId, out int n)))
-            {
-                return BadRequest("Invalid ID");
-            }
+
             foreach(Contact c in contacts)
             {
                 if(c.id == personId)
